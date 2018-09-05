@@ -37,7 +37,7 @@ provider:
     Resource:
     - { "Fn::GetAtt": ["ExercisesDynamoDBTable", "Arn" ] }
   environment:
-    EXERCISES_TABLE_NAME: ${self:custom.productsTableName}
+    EXERCISES_TABLE_NAME: ${self:custom.exercisesTableName}
 
 
 # you can overwrite defaults here
