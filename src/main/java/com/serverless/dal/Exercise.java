@@ -20,7 +20,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 @DynamoDBTable(tableName = "PLACEHOLDER_EXERCISES_TABLE_NAME")
-public class Product {
+public class Exercise {
 
     // get the table name from env. var. set in serverless.yml
     private static final String EXERCISES_TABLE_NAME = System.getenv("EXERCISES_TABLE_NAME");
@@ -60,7 +60,7 @@ public class Product {
         this.price = price;
     }
 
-    public Product() {
+    public Exercise() {
         // build the mapper config
         DynamoDBMapperConfig mapperConfig = DynamoDBMapperConfig.builder()
             .withTableNameOverride(new DynamoDBMapperConfig.TableNameOverride(EXERCISES_TABLE_NAME))
@@ -73,7 +73,7 @@ public class Product {
     }
 
     public String toString() {
-        return String.format("Product [id=%s, name=%s, price=$%f]", this.id, this.name, this.price);
+        return String.format("Exercise [id=%s, name=%s, price=$%f]", this.id, this.name, this.price);
     }
 
     // methods
@@ -81,48 +81,48 @@ public class Product {
         return this.client.describeTable(EXERCISES_TABLE_NAME).getTable().getTableStatus().equals("ACTIVE");
     }
 
-    public List<Product> list() throws IOException {
+    public List<Exercise> list() throws IOException {
       DynamoDBScanExpression scanExp = new DynamoDBScanExpression();
-      List<Product> results = this.mapper.scan(Product.class, scanExp);
-      for (Product p : results) {
+      List<Exercise> results = this.mapper.scan(Exercise.class, scanExp);
+      for (Exercise p : results) {
         logger.info("Exercises - list(): " + p.toString());
       }
       return results;
     }
 
-    public Product get(String id) throws IOException {
-        Product product = null;
+    public Exercise get(String id) throws IOException {
+        Exercise exercise = null;
 
         HashMap<String, AttributeValue> av = new HashMap<String, AttributeValue>();
         av.put(":v1", new AttributeValue().withS(id));
 
-        DynamoDBQueryExpression<Product> queryExp = new DynamoDBQueryExpression<Product>()
+        DynamoDBQueryExpression<Exercise> queryExp = new DynamoDBQueryExpression<Exercise>()
             .withKeyConditionExpression("id = :v1")
             .withExpressionAttributeValues(av);
 
-        PaginatedQueryList<Product> result = this.mapper.query(Product.class, queryExp);
+        PaginatedQueryList<Exercise> result = this.mapper.query(Exercise.class, queryExp);
         if (result.size() > 0) {
-          product = result.get(0);
-          logger.info("Exercises - get(): exercise - " + product.toString());
+          exercise = result.get(0);
+          logger.info("Exercises - get(): exercise - " + exercise.toString());
         } else {
           logger.info("Exercises - get(): exercise - Not Found.");
         }
-        return product;
+        return exercise;
     }
 
-    public void save(Product product) throws IOException {
-        logger.info("Exercises - save(): " + product.toString());
-        this.mapper.save(product);
+    public void save(Exercise exercise) throws IOException {
+        logger.info("Exercises - save(): " + exercise.toString());
+        this.mapper.save(exercise);
     }
 
     public Boolean delete(String id) throws IOException {
-        Product product = null;
+        Exercise exercise = null;
 
-        // get product if exists
-        product = get(id);
-        if (product != null) {
-          logger.info("Exercises - delete(): " + product.toString());
-          this.mapper.delete(product);
+        // get exercise if exists
+        exercise = get(id);
+        if (exercise != null) {
+          logger.info("Exercises - delete(): " + exercise.toString());
+          this.mapper.delete(exercise);
         } else {
           logger.info("Exercises - delete(): exercise - does not exist.");
           return false;

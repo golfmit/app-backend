@@ -3,13 +3,10 @@ package com.serverless;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.serverless.dal.Exercise;
 import org.apache.log4j.Logger;
 import java.util.Collections;
 import java.util.Map;
-
-import com.serverless.dal.Product;
 
 public class DeleteExerciseHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
@@ -23,8 +20,8 @@ public class DeleteExerciseHandler implements RequestHandler<Map<String, Object>
         Map<String,String> pathParameters =  (Map<String,String>)input.get("pathParameters");
         String productId = pathParameters.get("id");
 
-        // get the Product by id
-        Boolean success = new Product().delete(productId);
+        // get the Exercise by id
+        Boolean success = new Exercise().delete(productId);
 
         // send the response back
         if (success) {
@@ -35,7 +32,7 @@ public class DeleteExerciseHandler implements RequestHandler<Map<String, Object>
         } else {
           return ApiGatewayResponse.builder()
       				.setStatusCode(404)
-      				.setObjectBody("Product with id: '" + productId + "' not found.")
+      				.setObjectBody("Exercise with id: '" + productId + "' not found.")
       				.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
       				.build();
         }

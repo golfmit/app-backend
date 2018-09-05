@@ -3,14 +3,12 @@ package com.serverless;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import java.util.Collections;
 import java.util.Map;
 import java.util.List;
 
-import com.serverless.dal.Product;
+import com.serverless.dal.Exercise;
 
 public class ListExercisesHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
@@ -20,7 +18,7 @@ public class ListExercisesHandler implements RequestHandler<Map<String, Object>,
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
     try {
         // get all exercises
-        List<Product> exercises = new Product().list();
+        List<Exercise> exercises = new Exercise().list();
 
         // send the response back
         return ApiGatewayResponse.builder()

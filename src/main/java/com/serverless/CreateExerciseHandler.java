@@ -5,11 +5,10 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.serverless.dal.Exercise;
 import org.apache.log4j.Logger;
 import java.util.Collections;
 import java.util.Map;
-
-import com.serverless.dal.Product;
 
 public class CreateExerciseHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
@@ -22,17 +21,17 @@ public class CreateExerciseHandler implements RequestHandler<Map<String, Object>
           // get the 'body' from input
           JsonNode body = new ObjectMapper().readTree((String) input.get("body"));
 
-          // create the Product object for post
-          Product product = new Product();
-          // product.setId(body.get("id").asText());
-          product.setName(body.get("name").asText());
-          product.setPrice((float) body.get("price").asDouble());
-          product.save(product);
+          // create the Exercise object for post
+          Exercise exercise = new Exercise();
+          // exercise.setId(body.get("id").asText());
+          exercise.setName(body.get("name").asText());
+          exercise.setPrice((float) body.get("price").asDouble());
+          exercise.save(exercise);
 
           // send the response back
       		return ApiGatewayResponse.builder()
       				.setStatusCode(200)
-      				.setObjectBody(product)
+      				.setObjectBody(exercise)
       				.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
       				.build();
 

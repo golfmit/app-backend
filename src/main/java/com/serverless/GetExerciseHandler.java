@@ -3,13 +3,10 @@ package com.serverless;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.serverless.dal.Exercise;
 import org.apache.log4j.Logger;
 import java.util.Collections;
 import java.util.Map;
-
-import com.serverless.dal.Product;
 
 public class GetExerciseHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
@@ -21,22 +18,22 @@ public class GetExerciseHandler implements RequestHandler<Map<String, Object>, A
     try {
         // get the 'pathParameters' from input
         Map<String,String> pathParameters =  (Map<String,String>)input.get("pathParameters");
-        String productId = pathParameters.get("id");
+        String exerciseId = pathParameters.get("id");
 
-        // get the Product by id
-        Product product = new Product().get(productId);
+        // get the Exercise by id
+        Exercise exercise = new Exercise().get(exerciseId);
 
         // send the response back
-        if (product != null) {
+        if (exercise != null) {
           return ApiGatewayResponse.builder()
       				.setStatusCode(200)
-      				.setObjectBody(product)
+      				.setObjectBody(exercise)
       				.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
       				.build();
         } else {
           return ApiGatewayResponse.builder()
       				.setStatusCode(404)
-              .setObjectBody("Product with id: '" + productId + "' not found.")
+              .setObjectBody("Exercise with id: '" + exerciseId + "' not found.")
       				.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
       				.build();
         }
