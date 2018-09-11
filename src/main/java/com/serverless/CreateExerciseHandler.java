@@ -25,7 +25,8 @@ public class CreateExerciseHandler implements RequestHandler<Map<String, Object>
           Exercise exercise = new Exercise();
           // exercise.setId(body.get("id").asText());
           exercise.setName(body.get("name").asText());
-          exercise.setPrice((float) body.get("price").asDouble());
+		  exercise.setGroup("com.laurinka");
+          exercise.setUrl(body.get("url").asText());
           exercise.save(exercise);
 
           // send the response back
