@@ -74,6 +74,10 @@ functions:
 
   listExercises:
     handler: com.serverless.ListExercisesHandler
+    events:
+      - http:
+          path: exercises/list
+          method: get
 
   getExercise:
     handler: com.serverless.GetExerciseHandler
