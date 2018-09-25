@@ -71,9 +71,11 @@ package:
 functions:
   hello:
     handler: com.serverless.Handler
+    description: smoke test
 
   listExercises:
     handler: com.serverless.ListExercisesHandler
+    description: list all exercises
     events:
       - http:
           path: exercises/list
