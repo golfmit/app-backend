@@ -15,6 +15,7 @@ service: exercises-api
 
 custom:
   exercisesTableName: 'java-exercises-${self:provider.stage}'
+  workoutsTableName: 'java-workouts-${self:provider.stage}'
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -36,8 +37,19 @@ provider:
     - dynamodb:DeleteItem
     Resource:
     - { "Fn::GetAtt": ["ExercisesDynamoDBTable", "Arn" ] }
+  - Effect: Allow
+    Action:
+    - dynamodb:Query
+    - dynamodb:Scan
+    - dynamodb:GetItem
+    - dynamodb:PutItem
+    - dynamodb:UpdateItem
+    - dynamodb:DeleteItem
+    Resource:
+    - { "Fn::GetAtt": ["WorkoutsDynamoDBTable", "Arn" ] }
   environment:
     EXERCISES_TABLE_NAME: ${self:custom.exercisesTableName}
+    WORKOUTS_TABLE_NAME: ${self:custom.workoutsTableName}
 
 
 # you can overwrite defaults here
@@ -95,6 +107,12 @@ functions:
   deleteExercise:
     handler: com.serverless.DeleteExerciseHandler
 
+  createWorkout:
+    handler: com.serverless.CreateWorkoutHandler
+    events:
+    - http:
+        path: workouts/create
+        method: post
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
@@ -156,6 +174,29 @@ resources:
           KeyType: HASH
         - AttributeName: name
           KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    WorkoutsDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.workoutsTableName}
+        AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: name
+          AttributeType: S
+        - AttributeName: group
+          AttributeType: S
+        - AttributeName: date
+          AttributeType: S
+        - AttributeName: result
+          AttributeType: S
+        - AttributeName: user
+          AttributeType: S
+        KeySchema:
+        - AttributeName: id
+          KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
