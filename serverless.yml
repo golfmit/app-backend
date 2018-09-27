@@ -86,6 +86,11 @@ functions:
 
   createExercise:
     handler: com.serverless.CreateExerciseHandler
+    description: create an exercise
+    events:
+    - http:
+        path: exercises/create
+        method: post
 
   deleteExercise:
     handler: com.serverless.DeleteExerciseHandler
