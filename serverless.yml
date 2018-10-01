@@ -113,6 +113,14 @@ functions:
     - http:
         path: workouts/create
         method: post
+
+  listWorkouts:
+    handler: com.serverless.ListExercisesHandler
+    description: list all workouts for given user und exercise
+    events:
+    - http:
+        path: workouts/list
+        method: get
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

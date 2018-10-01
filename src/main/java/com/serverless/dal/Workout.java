@@ -2,6 +2,7 @@ package com.serverless.dal;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.amazonaws.services.dynamodbv2.datamodeling.marshallers.DateToStringMarshaller;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import org.apache.log4j.Logger;
 
@@ -98,11 +99,18 @@ public class Workout {
         return this.client.describeTable(WORKOUTS_TABLE_NAME).getTable().getTableStatus().equals("ACTIVE");
     }
 
-    public List<Workout> list() throws IOException {
-      DynamoDBScanExpression scanExp = new DynamoDBScanExpression();
+    public List<Workout> byUserAndExercise(String user, String name, String group) throws IOException {
+        AttributeValue nameValue = DateToStringMarshaller.instance().marshall(name);
+        AttributeValue groupValue = DateToStringMarshaller.instance().marshall(group);
+        AttributeValue userValue = DateToStringMarshaller.instance().marshall(user);
+      DynamoDBScanExpression scanExp = new DynamoDBScanExpression().withFilterExpression("name = :name and group = :group and user = :user")
+              .addExpressionAttributeValuesEntry(":name", nameValue)
+              .addExpressionAttributeValuesEntry(":group", groupValue)
+              .addExpressionAttributeValuesEntry(":user", userValue);
+
       List<Workout> results = this.mapper.scan(Workout.class, scanExp);
       for (Workout p : results) {
-        logger.info("Workouts - list(): " + p.toString());
+        logger.info("Workout - list(): " + p.toString());
       }
       return results;
     }
