@@ -81,9 +81,6 @@ package:
   artifact: build/distributions/exercises.zip
 
 functions:
-  hello:
-    handler: com.serverless.Handler
-    description: smoke test
 
   listExercises:
     handler: com.serverless.ListExercisesHandler
@@ -191,16 +188,6 @@ resources:
         TableName: ${self:custom.workoutsTableName}
         AttributeDefinitions:
         - AttributeName: id
-          AttributeType: S
-        - AttributeName: name
-          AttributeType: S
-        - AttributeName: group
-          AttributeType: S
-        - AttributeName: date
-          AttributeType: S
-        - AttributeName: result
-          AttributeType: S
-        - AttributeName: user
           AttributeType: S
         KeySchema:
         - AttributeName: id
