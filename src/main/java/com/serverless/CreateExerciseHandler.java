@@ -2,31 +2,28 @@ package com.serverless;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.serverless.dal.Exercise;
 import org.apache.log4j.Logger;
-import java.util.Collections;
-import java.util.Map;
 
-public class CreateExerciseHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
+import java.util.Collections;
+
+@SuppressWarnings("unused")
+public class CreateExerciseHandler implements RequestHandler<Exercise, ApiGatewayResponse> {
 
 	private final Logger logger = Logger.getLogger(this.getClass());
 
 	@Override
-	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
+	public ApiGatewayResponse handleRequest(Exercise input, Context context) {
 
       try {
           // get the 'body' from input
-          JsonNode body = new ObjectMapper().readTree((String) input.get("body"));
+
 
           // create the Exercise object for post
           Exercise exercise = new Exercise();
-          // exercise.setId(body.get("id").asText());
-          exercise.setName(body.get("name").asText());
-		  exercise.setGroup("com.laurinka");
-          exercise.setUrl(body.get("url").asText());
+          exercise.setName(input.getName());
+		  exercise.setGroup(input.getGroup());
+          exercise.setUrl(input.getUrl());
           exercise.save(exercise);
 
           // send the response back
