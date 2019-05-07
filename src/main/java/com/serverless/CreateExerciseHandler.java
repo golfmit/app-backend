@@ -24,6 +24,7 @@ public class CreateExerciseHandler implements RequestHandler<Exercise, ApiGatewa
           exercise.setName(input.getName());
 		  exercise.setGroup(input.getGroup());
           exercise.setUrl(input.getUrl());
+          exercise.setTimestamp(input.getTimestamp());
           exercise.save(exercise);
 
           // send the response back
