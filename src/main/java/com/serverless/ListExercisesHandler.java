@@ -2,13 +2,11 @@ package com.serverless;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-
-import org.apache.log4j.Logger;
-import java.util.Collections;
-import java.util.Map;
-import java.util.List;
-
 import com.serverless.dal.Exercise;
+import org.apache.log4j.Logger;
+
+import java.util.List;
+import java.util.Map;
 
 public class ListExercisesHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
@@ -24,7 +22,6 @@ public class ListExercisesHandler implements RequestHandler<Map<String, Object>,
         return ApiGatewayResponse.builder()
     				.setStatusCode(200)
     				.setObjectBody(exercises)
-    				.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
     				.build();
     } catch (Exception ex) {
         logger.error("Error in listing exercises: " + ex);
@@ -34,7 +31,6 @@ public class ListExercisesHandler implements RequestHandler<Map<String, Object>,
   			return ApiGatewayResponse.builder()
   					.setStatusCode(500)
   					.setObjectBody(responseBody)
-  					.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
   					.build();
     }
 	}

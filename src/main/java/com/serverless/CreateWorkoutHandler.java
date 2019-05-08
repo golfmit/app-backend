@@ -5,8 +5,6 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.serverless.dal.Workout;
 import org.apache.log4j.Logger;
 
-import java.util.Collections;
-
 @SuppressWarnings("unused")
 public class CreateWorkoutHandler implements RequestHandler<Workout, ApiGatewayResponse> {
 
@@ -29,7 +27,6 @@ public class CreateWorkoutHandler implements RequestHandler<Workout, ApiGatewayR
       		return ApiGatewayResponse.builder()
       				.setStatusCode(200)
       				.setObjectBody(workout)
-      				.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
       				.build();
 
       } catch (Exception ex) {
@@ -40,7 +37,6 @@ public class CreateWorkoutHandler implements RequestHandler<Workout, ApiGatewayR
     			return ApiGatewayResponse.builder()
     					.setStatusCode(500)
     					.setObjectBody(responseBody)
-    					.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
     					.build();
       }
 	}

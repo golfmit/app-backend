@@ -5,8 +5,6 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.serverless.dal.Exercise;
 import org.apache.log4j.Logger;
 
-import java.util.Collections;
-
 @SuppressWarnings("unused")
 public class CreateExerciseHandler implements RequestHandler<Exercise, ApiGatewayResponse> {
 
@@ -31,18 +29,16 @@ public class CreateExerciseHandler implements RequestHandler<Exercise, ApiGatewa
       		return ApiGatewayResponse.builder()
       				.setStatusCode(200)
       				.setObjectBody(exercise)
-      				.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
       				.build();
 
       } catch (Exception ex) {
-          logger.error("Error in saving product: " + ex);
+          logger.error("Error in saving exercise: " + ex);
 
           // send the error response back
-    			Response responseBody = new Response("Error in saving product: ", input);
+    			Response responseBody = new Response("Error in saving exercise: ", input);
     			return ApiGatewayResponse.builder()
     					.setStatusCode(500)
     					.setObjectBody(responseBody)
-    					.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
     					.build();
       }
 	}
