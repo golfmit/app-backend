@@ -112,7 +112,7 @@ functions:
         method: post
 
   listWorkouts:
-    handler: com.serverless.ListExercisesHandler
+    handler: com.serverless.ListWorkoutsHandler
     description: list all workouts for given user und exercise
     events:
     - http:
